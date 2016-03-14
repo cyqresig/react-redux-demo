@@ -46,6 +46,7 @@ class Footer extends Component {
   }
 
   render() {
+    console.log('footer render!');
     return (
       <footer className="footer">
         {this.renderTodoCount()}

@@ -15,12 +15,23 @@ class MainSection extends Component {
     this.state = { filter: SHOW_ALL }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('m nextProps')
+    console.log(nextProps)
+    console.log('m nextState')
+    console.log(nextState)
+    return false;
+  }
   handleClearCompleted() {
     this.props.actions.clearCompleted()
   }
 
   handleShow(filter) {
     this.setState({ filter })
+  }
+
+  handleDisplay() {
+    this.props.actions.displayAll();
   }
 
   renderToggleAll(completedCount) {
@@ -31,6 +42,28 @@ class MainSection extends Component {
                type="checkbox"
                checked={completedCount === todos.length}
                onChange={actions.completeAll} />
+      )
+    }
+  }
+
+  renderVisibleAll() {
+    const { visible } = this.props
+    console.log('visible = ' + visible.visible);
+    let val = visible.visible + ''
+    if(visible.visible) {
+      return (
+          <input type="button"
+                 value={val}
+                 onClick={this.handleDisplay.bind(this)}
+              />
+      )
+    }
+    else {
+      return (
+          <input type="button"
+                 value={val}
+                 onClick={this.handleDisplay.bind(this)}
+              />
       )
     }
   }
@@ -52,6 +85,7 @@ class MainSection extends Component {
   }
 
   render() {
+    console.log('mainsection render!');
     const { todos, actions } = this.props
     const { filter } = this.state
 
@@ -70,6 +104,7 @@ class MainSection extends Component {
           )}
         </ul>
         {this.renderFooter(completedCount)}
+        {this.renderVisibleAll()}
       </section>
     )
   }
@@ -77,6 +112,7 @@ class MainSection extends Component {
 
 MainSection.propTypes = {
   todos: PropTypes.array.isRequired,
+  visible: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 }
 
